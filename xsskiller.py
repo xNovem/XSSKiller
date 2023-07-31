@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 import requests
-from HTMLParser import HTMLParser
+from bs4 import BeautifulSoup
 
-class XSSParser(HTMLParser):
-    def __init__(self):
+class XSSParser(BeautifulSoup):
+    def __init__(self, html):
         self.xss_found = False
-        HTMLParser.__init__(self)
+        BeautifulSoup.__init__(self, html, 'html.parser')
 
     def handle_starttag(self, tag, attrs):
         if tag == "script":
@@ -26,12 +26,12 @@ __  ______ ____    _  ___ _ _
 
 def check_xss_vulnerability(site_url):
     response = requests.get(site_url)
-    parser = XSSParser()
-    parser.feed(response.text)
+    parser = XSSParser(response.text)
     if parser.xss_found:
         print("\033[1;32mXSS zafiyeti tespit edildi!\033[0m")
         print("\033[1;31mTespit edilen XSS içeriği:\033[0m")
-        print(response.text)
+        for i, script_tag in enumerate(parser.find_all("script"), start=1):
+            print(f"{i}. <script> etiketi: {script_tag}")
     else:
         print("\033[1;31mXSS zafiyeti tespit edilemedi.\033[0m")
 
@@ -42,4 +42,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
