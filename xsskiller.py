@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import requests
-from bs4 import BeautifulSoup
-
-class XSSParser(BeautifulSoup):
-    def __init__(self, html):
-        self.xss_found = False
-        BeautifulSoup.__init__(self, html, 'html.parser')
-
-    def handle_starttag(self, tag, attrs):
-        if tag == "script":
-            self.xss_found = True
+import re
 
 def display_banner():
     banner_text = """
@@ -26,13 +17,12 @@ __  ______ ____    _  ___ _ _
 
 def check_xss_vulnerability(site_url):
     response = requests.get(site_url)
-    parser = XSSParser(response.text)
-    if parser.xss_found:
+    if re.search(r"<script>", response.text):
         print("\033[1;32mXSS zafiyeti tespit edildi!\033[0m")
-        print("\033[1;31mTespit edilen XSS içeriği:\033[0m")
+        scripts = re.findall(r"<script>.*?</script>", response.text, re.DOTALL)
         i = 1
-        for script_tag in parser.find_all("script"):
-            print("%d. <script> etiketi: %s" % (i, script_tag))
+        for script in scripts:
+            print("%d. <script> etiketi: %s" % (i, script))
             i += 1
     else:
         print("\033[1;31mXSS zafiyeti tespit edilemedi.\033[0m")
