@@ -30,8 +30,10 @@ def check_xss_vulnerability(site_url):
     if parser.xss_found:
         print("\033[1;32mXSS zafiyeti tespit edildi!\033[0m")
         print("\033[1;31mTespit edilen XSS içeriği:\033[0m")
-        for i, script_tag in enumerate(parser.find_all("script"), start=1):
+        i = 1
+        for script_tag in parser.find_all("script"):
             print("%d. <script> etiketi: %s" % (i, script_tag))
+            i += 1
     else:
         print("\033[1;31mXSS zafiyeti tespit edilemedi.\033[0m")
 
@@ -42,4 +44,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
