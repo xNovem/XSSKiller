@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import requests
 from HTMLParser import HTMLParser
@@ -41,3 +42,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
