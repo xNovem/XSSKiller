@@ -21,13 +21,13 @@ def check_xss_vulnerability(site_url):
     if script_tags:
         print("\033[1;32mXSS zafiyeti tespit edildi!\033[0m")
         for i, tag in enumerate(script_tags, start=1):
-            print(f"{i}. <script> etiketi: {tag}")
+            print("{0}. <script> etiketi: {1}".format(i, tag))
     else:
         print("\033[1;31mXSS zafiyeti tespit edilemedi.\033[0m")
 
 def main():
     display_banner()
-    site_url = input("Lutfen kontrol etmek istediginiz siteyi girin: ")
+    site_url = raw_input("Lutfen kontrol etmek istediginiz siteyi girin: ")
     check_xss_vulnerability(site_url)
 
 if __name__ == "__main__":
