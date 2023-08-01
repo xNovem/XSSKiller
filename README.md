@@ -11,7 +11,7 @@ It gives the details of the vulnerability it finds as a result.
 * `git clone https://github.com/xNovem/XSSkiller`
 * `cd XSSkiller`
 
-#### > Run : `python2 xsskiller.py [Target URL]`
+#### > Run : `python2 xsskiller.py`
 
 ### < Tested On 
 
